@@ -144,9 +144,7 @@ exports.updatePassword = catchAsyncError(async (req, res, next) => {
 
 //update user profile => /api/v1/me/update
 exports.updateProfile = catchAsyncError(async (req, res, next) => {
-  //if we just want to change the name then we can do it from frontend rest all will be present just send to the api here we are specifying that name and email should be changed the main things is from front end
-
-  //here we are just checking, if you just want to chnage the name just send name through frontend rest all will be same and hit it
+  //whatever we are registering the fields while registering will come under userdata and from the frontend if we just want to send name we can and rest will be same
   const newUserData = {
     name: req.body.name,
     email: req.body.email,
