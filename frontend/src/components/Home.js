@@ -195,6 +195,8 @@ const Home = () => {
   const [rating, setRating] = useState(0);
   const params = useParams();
 
+  console.log(category);
+
   const categories = [
     "Electronics",
     "Cameras",
@@ -295,9 +297,9 @@ const Home = () => {
                         </ul>
                       </div>
 
-                      {/* <hr className="my-3" /> */}
+                      <hr className="my-3" />
 
-                      {/* <div className="mt-5">
+                      <div className="mt-5">
                         <h4 className="mb-3">Ratings</h4>
 
                         <ul className="pl-0">
@@ -321,7 +323,7 @@ const Home = () => {
                             </li>
                           ))}
                         </ul>
-                      </div> */}
+                      </div>
                     </div>
                   </div>
 

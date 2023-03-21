@@ -1,9 +1,10 @@
 import React from "react";
 import logo from "../../images/shopit_logo.png";
 import Search from "./Search";
-import { Route, Routes, Link } from "react-router-dom";
+import { Route, Routes, Link, useNavigate } from "react-router-dom";
 
 const Header = () => {
+  const navigate = useNavigate();
   return (
     <>
       <nav className="navbar row">
@@ -23,7 +24,11 @@ const Header = () => {
         </div>
 
         <div className="col-12 col-md-3 mt-4 mt-md-0 text-center">
-          <button className="btn" id="login_btn">
+          <button
+            className="btn"
+            id="login_btn"
+            onClick={() => navigate("/login")}
+          >
             Login
           </button>
 
