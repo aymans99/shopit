@@ -6,9 +6,15 @@ const sendToken = require("../utils/jwtToken");
 const sendEmail = require("../utils/sendEmail");
 const catchAsyncerrors = require("../middlewares/catchAsyncerrors");
 const crypto = require("crypto");
+const cloudinary = require("cloudinary");
 
 //Register a user => /api/v1/register
 exports.registerUser = catchAsyncError(async (req, res, next) => {
+  const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
+    folder: "avatars",
+    width: 150,
+    crop: "scale",
+  });
   const { name, email, password } = req.body;
 
   const user = await User.create({
@@ -16,8 +22,8 @@ exports.registerUser = catchAsyncError(async (req, res, next) => {
     email,
     password,
     avatar: {
-      public_id: "avatars/kccvibpsuiusmwfepb3m",
-      url: "https://res.cloudinary.com/shopit/image/upload/v1606305757/avatars/kccvibpsuiusmwfepb3m.png",
+      public_id: result.public_id,
+      url: result.secure_url,
     },
   });
 
@@ -149,7 +155,21 @@ exports.updateProfile = catchAsyncError(async (req, res, next) => {
     name: req.body.name,
     email: req.body.email,
   };
-  //Update avatar : TODO
+  //Update avatar
+  if (req.body.avatar !== "") {
+    const user = await User.findById(req.user.id);
+    const image_id = user.avatar.public_id;
+    const res = await cloudinary.v2.uploader.destroy(image_id);
+    const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
+      folder: "avatars",
+      width: 150,
+      crop: "scale",
+    });
+    newUserData.avatar = {
+      public_id: result.public_id,
+      url: result.secure_url,
+    };
+  }
 
   const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
     new: true,
