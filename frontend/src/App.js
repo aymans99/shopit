@@ -12,6 +12,7 @@ import store from "./store";
 import Profile from "./components/user/Profile";
 import ProtectedRoute from "./route/ProtectedRoute";
 import UpdateProfile from "./components/user/updateProfile";
+import UpdatePassword from "./components/user/updatePassword";
 function App() {
   useEffect(() => {
     store.dispatch(loadUser());
@@ -39,6 +40,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <UpdateProfile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/password/update"
+            element={
+              <ProtectedRoute>
+                <UpdatePassword />
               </ProtectedRoute>
             }
           />

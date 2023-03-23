@@ -45,9 +45,12 @@ const Profile = () => {
                 </a>
               )}
 
-              <a href="#" className="btn btn-primary btn-block mt-3">
+              <Link
+                to="/password/update"
+                className="btn btn-primary btn-block mt-3"
+              >
                 Change Password
-              </a>
+              </Link>
             </div>
           </div>
         </>

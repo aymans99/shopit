@@ -133,18 +133,19 @@ exports.getUserProfile = catchAsyncError(async (req, res, next) => {
   });
 });
 
-//update/change password => /api/v1/password/update
+// Update / Change password   =>  /api/v1/password/update
 exports.updatePassword = catchAsyncError(async (req, res, next) => {
   const user = await User.findById(req.user.id).select("+password");
 
-  //check previous user password
+  // Check previous user password
   const isMatched = await user.comparePassword(req.body.oldPassword);
   if (!isMatched) {
-    return next(new ErrorHandler("old password is wrong", 400));
+    return next(new ErrorHandler("Old password is incorrect"));
   }
-  //password coming from body through postman
+
   user.password = req.body.password;
   await user.save();
+
   sendToken(user, 200, res);
 });
 
