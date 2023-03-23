@@ -155,7 +155,6 @@ export const updatePassword = (passwords) => async (dispatch) => {
     });
   }
 };
-
 //logout
 export const logout = (userData) => async (dispatch) => {
   try {
