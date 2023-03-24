@@ -16,10 +16,19 @@ import UpdatePassword from "./components/user/updatePassword";
 import ForgotPassword from "./components/user/forgotPassword";
 import NewPassword from "./components/user/NewPassword";
 import Cart from "./components/Cart/Cart";
+import Shipping from "./components/Cart/Shipping";
+import ConfirmOrder from "./components/Cart/ConfirmOrder";
+import axios from "axios";
 function App() {
+  const [stripeApiKey, setStripeApiKey] = useState("");
   useEffect(() => {
     store.dispatch(loadUser());
-  });
+    async function getStripAPiKey() {
+      const { data } = await axios.get("/api/v1/stripeapi");
+      setStripeApiKey(data.stripeApiKey);
+    }
+    getStripeApiKey();
+  }, []);
   return (
     <div className="App">
       <Router>
@@ -38,6 +47,22 @@ function App() {
             element={
               <ProtectedRoute>
                 <Profile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/order/confirm"
+            element={
+              <ProtectedRoute>
+                <ConfirmOrder />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/shipping"
+            element={
+              <ProtectedRoute>
+                <Shipping />
               </ProtectedRoute>
             }
           />

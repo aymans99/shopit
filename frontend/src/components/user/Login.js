@@ -3,7 +3,7 @@ import Loader from "../layouts/Loader";
 import MetaData from "../layouts/MetaData";
 import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { login, clearErrors } from "../../actions/userActions";
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -11,13 +11,15 @@ const Login = () => {
   const { isAuthenticated, error, loading } = useSelector(
     (state) => state.auth
   );
+  const location = useLocation();
+  const redirect = location.search ? `/${location.search.split("=")[1]}` : "/";
   const alert = useAlert();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/");
+      navigate(`${redirect}`);
     }
     if (error) {
       alert.error(error);

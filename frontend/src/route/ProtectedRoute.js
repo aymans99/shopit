@@ -15,14 +15,7 @@ const ProtectedRoute = ({ children, isAdmin }) => {
       dispatch(loadUser());
     }
   }, [isAuthenticated, loading]);
-  // if (loading) {
-  //   return <h1>Loading</h1>;
-  // } else if (!isAuthenticated) {
-  //   return <Navigate to={"/login"} />;
-  // } else if (user.role !== "admin") {
-  //   return <Navigate to="/" />;
-  // } else {
-  //   return children;
+  return children;
   // }
   if (loading) return <h1>Loading</h1>;
   if (!loading && isAuthenticated) {

@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Loader from "../layouts/Loader";
 import MetaData from "../layouts/MetaData";
 import { useAlert } from "react-alert";
@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addItemToCart, removeItemFromCart } from "../../actions/cartActions";
 const Cart = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { cartItems } = useSelector((state) => state.cart);
   const increaseQty = (id, quantity, stock) => {
     const newQty = quantity + 1;
@@ -16,6 +17,9 @@ const Cart = () => {
     dispatch(addItemToCart(id, newQty));
   };
 
+  const checkoutHandler = () => {
+    navigate("/login?redirect=shipping");
+  };
   const decreaseQty = (id, quantity) => {
     const newQty = quantity - 1;
 
@@ -137,7 +141,11 @@ const Cart = () => {
                 </p>
 
                 <hr />
-                <button id="checkout_btn" className="btn btn-primary btn-block">
+                <button
+                  id="checkout_btn"
+                  className="btn btn-primary btn-block"
+                  onClick={checkoutHandler}
+                >
                   Check out
                 </button>
               </div>
