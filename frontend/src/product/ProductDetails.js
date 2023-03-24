@@ -1,4 +1,4 @@
-import Reac, { useEffect } from "react";
+import Reac, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductDetails, clearErrors } from "../actions/productActions";
 import { useAlert } from "react-alert";
@@ -6,10 +6,12 @@ import Loader from "../components/layouts/Loader";
 import MetaData from "../components/layouts/MetaData";
 import { useParams } from "react-router-dom";
 import { Carousel } from "react-bootstrap";
+import { addItemToCart } from "../actions/cartActions";
 const ProductDetails = () => {
   const dispatch = useDispatch();
   const alert = useAlert();
   const params = useParams();
+  const [quantity, setQuantity] = useState(1);
   const { loading, error, product } = useSelector(
     (state) => state.productDetails
   );
@@ -22,6 +24,28 @@ const ProductDetails = () => {
       }
     }
   }, [dispatch, alert, error, params.id]);
+
+  const increaseQty = () => {
+    const count = document.querySelector(".count");
+
+    if (count.valueAsNumber >= product.stock) return;
+
+    const qty = count.valueAsNumber + 1;
+    setQuantity(qty);
+  };
+
+  const decreaseQty = () => {
+    const count = document.querySelector(".count");
+
+    if (count.valueAsNumber <= 1) return;
+
+    const qty = count.valueAsNumber - 1;
+    setQuantity(qty);
+  };
+  const addToCart = () => {
+    dispatch(addItemToCart(params.id, quantity));
+    alert.success("item added to cart");
+  };
   return (
     <>
       {loading ? (
@@ -29,7 +53,7 @@ const ProductDetails = () => {
       ) : (
         <>
           <MetaData title={product.name} />
-          <div className="row f-flex justify-content-around">
+          <div className="row d-flex justify-content-around">
             <div className="col-12 col-lg-5 img-fluid" id="product_image">
               <Carousel pause="hover">
                 {product.images &&
@@ -38,7 +62,7 @@ const ProductDetails = () => {
                       <img
                         className="d-block w-100"
                         src={image.url}
-                        alt="image"
+                        alt={product.title}
                       />
                     </Carousel.Item>
                   ))}
@@ -54,32 +78,37 @@ const ProductDetails = () => {
               <div className="rating-outer">
                 <div
                   className="rating-inner"
-                  style={{
-                    width: `${(product.ratings / 5) * 100}%`,
-                  }}
+                  style={{ width: `${(product.ratings / 5) * 100}%` }}
                 ></div>
               </div>
-              <span id="no_of_reviews">({product.numofreviews} Reviews)</span>
+              <span id="no_of_reviews">({product.numOfReviews} Reviews)</span>
 
               <hr />
 
               <p id="product_price">${product.price}</p>
               <div className="stockCounter d-inline">
-                <span className="btn btn-danger minus">-</span>
+                <span className="btn btn-danger minus" onClick={decreaseQty}>
+                  -
+                </span>
 
                 <input
                   type="number"
                   className="form-control count d-inline"
-                  value="1"
+                  value={Number(quantity)}
+                  min="1"
                   readOnly
                 />
 
-                <span className="btn btn-primary plus">+</span>
+                <span className="btn btn-primary plus" onClick={increaseQty}>
+                  +
+                </span>
               </div>
               <button
                 type="button"
                 id="cart_btn"
                 className="btn btn-primary d-inline ml-4"
+                disabled={product.stock === 0 ? true : false}
+                onClick={addToCart}
               >
                 Add to Cart
               </button>
@@ -87,12 +116,12 @@ const ProductDetails = () => {
               <hr />
 
               <p>
-                Status:
+                Status:{" "}
                 <span
                   id="stock_status"
                   className={product.stock > 0 ? "greenColor" : "redColor"}
                 >
-                  {product.stock > 0 ? "In stock" : "Out of stock"}
+                  {product.stock > 0 ? "In Stock" : "Out of Stock"}
                 </span>
               </p>
 
@@ -104,16 +133,23 @@ const ProductDetails = () => {
               <p id="product_seller mb-3">
                 Sold by: <strong>{product.seller}</strong>
               </p>
-
-              <button
-                id="review_btn"
-                type="button"
-                className="btn btn-primary mt-4"
-                data-toggle="modal"
-                data-target="#ratingModal"
-              >
-                Submit Your Review
-              </button>
+              {/* 
+              {user ? (
+                <button
+                  id="review_btn"
+                  type="button"
+                  className="btn btn-primary mt-4"
+                  data-toggle="modal"
+                  data-target="#ratingModal"
+                  onClick={setUserRatings}
+                >
+                  Submit Your Review
+                </button>
+              ) : (
+                <div className="alert alert-danger mt-5" type="alert">
+                  Login to post your review.
+                </div>
+              )} */}
 
               <div className="row mt-2 mb-5">
                 <div className="rating w-50">
@@ -180,6 +216,10 @@ const ProductDetails = () => {
               </div>
             </div>
           </div>
+
+          {/* {product.reviews && product.reviews.length > 0 && (
+            <ListReviews reviews={product.reviews} />
+          )} */}
         </>
       )}
     </>

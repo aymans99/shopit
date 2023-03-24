@@ -13,6 +13,9 @@ import Profile from "./components/user/Profile";
 import ProtectedRoute from "./route/ProtectedRoute";
 import UpdateProfile from "./components/user/updateProfile";
 import UpdatePassword from "./components/user/updatePassword";
+import ForgotPassword from "./components/user/forgotPassword";
+import NewPassword from "./components/user/NewPassword";
+import Cart from "./components/Cart/Cart";
 function App() {
   useEffect(() => {
     store.dispatch(loadUser());
@@ -26,6 +29,9 @@ function App() {
           <Route path="/search/:keyword" element={<Home />} />
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/forgot/password" element={<ForgotPassword />} />
+          <Route path="/password/reset/:token" element={<NewPassword />} />
+          <Route path="/cart" element={<Cart />} />
           <Route path="/register" element={<Register />} />
           <Route
             path="/me"

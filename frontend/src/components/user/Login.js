@@ -61,7 +61,7 @@ const Login = () => {
                   />
                 </div>
 
-                <Link href="/" className="float-right mb-4">
+                <Link to="/forgot/password" className="float-right mb-4">
                   Forgot Password?
                 </Link>
 
