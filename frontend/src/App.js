@@ -22,7 +22,9 @@ import axios from "axios";
 import Payment from "./components/Cart/Payment";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-
+import ListOrders from "./order/ListOrders";
+import OrderSuccess from "./components/Cart/OrderSuccess";
+import OrderDetails from "./order/OrderDetails";
 function App() {
   const [stripeApiKey, setStripeApiKey] = useState("");
   useEffect(() => {
@@ -56,6 +58,22 @@ function App() {
             }
           />
           <Route
+            path="/orders/me"
+            element={
+              <ProtectedRoute>
+                <ListOrders />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/success"
+            element={
+              <ProtectedRoute>
+                <OrderSuccess />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/order/confirm"
             element={
               <ProtectedRoute>
@@ -63,6 +81,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+
           <Route
             path="/shipping"
             element={
@@ -76,6 +95,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <UpdateProfile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/order/:id"
+            element={
+              <ProtectedRoute>
+                <OrderDetails />
               </ProtectedRoute>
             }
           />

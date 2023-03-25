@@ -12,6 +12,7 @@ import {
   CardExpiryElement,
   CardCvcElement,
 } from "@stripe/react-stripe-js";
+import { createOrder, clearErrors } from "../../actions/orderActions";
 import axios from "axios";
 const Payment = () => {
   const alert = useAlert();
@@ -21,6 +22,7 @@ const Payment = () => {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
   const { cartItems, shippingInfo } = useSelector((state) => state.cart);
+  const { error } = useSelector((state) => state.newOrder);
   const options = {
     style: {
       base: {
@@ -39,6 +41,12 @@ const Payment = () => {
   const orderInfo = sessionStorage.getItem("orderInfo")
     ? JSON.parse(sessionStorage.getItem("orderInfo"))
     : null;
+  if (orderInfo) {
+    order.itemsPrice = orderInfo.itemsPrice;
+    order.shippingPrice = orderInfo.shippingPrice;
+    order.taxPrice = orderInfo.taxPrice;
+    order.totalPrice = orderInfo.totalPrice;
+  }
   const submitHandler = async (e) => {
     e.preventDefault();
     document.querySelector("#pay_btn").disabled = true;
@@ -88,7 +96,7 @@ const Payment = () => {
 
           alert.success("Payment successful");
 
-          //   dispatch(createOrder(order));
+          dispatch(createOrder(order));
 
           navigate("/success");
         } else {
@@ -103,7 +111,12 @@ const Payment = () => {
     }
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if (error) {
+      alert.error(error);
+      dispatch(clearErrors());
+    }
+  }, [dispatch, alert, error]);
   return (
     <>
       <MetaData title={"Payment"} />
