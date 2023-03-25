@@ -1,5 +1,5 @@
 import "./App.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Home from "./components/Home";
 import Footer from "./components/layouts/Footer";
 import Header from "./components/layouts/Header";
@@ -19,6 +19,10 @@ import Cart from "./components/Cart/Cart";
 import Shipping from "./components/Cart/Shipping";
 import ConfirmOrder from "./components/Cart/ConfirmOrder";
 import axios from "axios";
+import Payment from "./components/Cart/Payment";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+
 function App() {
   const [stripeApiKey, setStripeApiKey] = useState("");
   useEffect(() => {
@@ -26,8 +30,9 @@ function App() {
     async function getStripAPiKey() {
       const { data } = await axios.get("/api/v1/stripeapi");
       setStripeApiKey(data.stripeApiKey);
+      console.log(stripeApiKey);
     }
-    getStripeApiKey();
+    getStripAPiKey();
   }, []);
   return (
     <div className="App">
@@ -82,7 +87,18 @@ function App() {
               </ProtectedRoute>
             }
           />
+          {stripeApiKey && (
+            <Route
+              path="/payment"
+              element={
+                <Elements stripe={loadStripe(stripeApiKey)}>
+                  <Payment />
+                </Elements>
+              }
+            />
+          )}
         </Routes>
+
         <Footer />
       </Router>
     </div>
