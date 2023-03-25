@@ -44,6 +44,9 @@ const Payment = () => {
     document.querySelector("#pay_btn").disabled = true;
     const paymentData = {
       amount: Math.round(orderInfo.totalPrice * 100),
+      //   name: elements.getElement(CardNameElement).value,
+      // if we have to pay in usd we have to pass the card holder name as well and this will be the chnage
+      //we can also user user.name but its upto us whether we want to user user name from logged in user or value from cardnameelement
     };
     let res;
 
