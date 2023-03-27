@@ -25,6 +25,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import ListOrders from "./order/ListOrders";
 import OrderSuccess from "./components/Cart/OrderSuccess";
 import OrderDetails from "./order/OrderDetails";
+import Dashboard from "./components/admin/Dashboard";
 function App() {
   const [stripeApiKey, setStripeApiKey] = useState("");
   useEffect(() => {
@@ -56,6 +57,15 @@ function App() {
                 <Profile />
               </ProtectedRoute>
             }
+          />{" "}
+          <Route
+            path="/dashboard"
+            isAdmin={true}
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
           />
           <Route
             path="/orders/me"
@@ -81,7 +91,6 @@ function App() {
               </ProtectedRoute>
             }
           />
-
           <Route
             path="/shipping"
             element={
