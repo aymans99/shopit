@@ -1,13 +1,6 @@
-import {
-  ADD_TO_CART,
-  REMOVE_ITEM_CART,
-  SAVE_SHIPPING_INFO,
-} from "../constants/cartConstants";
+import { ADD_TO_CART, REMOVE_ITEM_CART } from "../constants/cartConstants";
 
-export const cartReducer = (
-  state = { cartItems: [], shippingInfo: {} },
-  action
-) => {
+export const cartReducer = (state = { cartItems: [] }, action) => {
   switch (action.type) {
     case ADD_TO_CART:
       const item = action.payload;
@@ -28,12 +21,7 @@ export const cartReducer = (
       return {
         ...state,
         cartItems: state.cartItems.filter((i) => i.product !== action.payload),
-        //if it euqls to then its removed otherwise its in the cart its checks to the product to be same
-      };
-    case SAVE_SHIPPING_INFO:
-      return {
-        ...state,
-        shippingInfo: action.payload,
+        //if it equals to then its removed otherwise its in the cart items is storedits checks to the product to be same
       };
     default:
       return state;

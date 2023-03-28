@@ -30,7 +30,7 @@ const Sidebar = () => {
                 </li>
 
                 <li>
-                  <Link href="#">
+                  <Link to="/admin/product">
                     <i className="fa fa-plus"></i> Create
                   </Link>
                 </li>

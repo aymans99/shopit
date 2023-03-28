@@ -26,6 +26,8 @@ import ListOrders from "./order/ListOrders";
 import OrderSuccess from "./components/Cart/OrderSuccess";
 import OrderDetails from "./order/OrderDetails";
 import Dashboard from "./components/admin/Dashboard";
+import NewProduct from "./components/admin/NewProduct";
+import ProductsList from "./components/admin/ProductsList";
 function App() {
   const [stripeApiKey, setStripeApiKey] = useState("");
   useEffect(() => {
@@ -57,13 +59,31 @@ function App() {
                 <Profile />
               </ProtectedRoute>
             }
-          />{" "}
+          />
           <Route
             path="/dashboard"
             isAdmin={true}
             element={
               <ProtectedRoute>
                 <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/products"
+            isAdmin={true}
+            element={
+              <ProtectedRoute>
+                <ProductsList />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/product"
+            isAdmin={true}
+            element={
+              <ProtectedRoute>
+                <NewProduct />
               </ProtectedRoute>
             }
           />

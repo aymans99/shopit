@@ -195,8 +195,6 @@ const Home = () => {
   const [rating, setRating] = useState(0);
   const params = useParams();
 
-  console.log(category);
-
   const categories = [
     "Electronics",
     "Cameras",
