@@ -40,6 +40,7 @@ const NewProduct = () => {
       alert.error(error);
       dispatch(clearErrors());
     }
+
     if (success) {
       navigate("/admin/products");
       alert.success("Product created successfully");

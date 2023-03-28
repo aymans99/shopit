@@ -15,6 +15,7 @@ import { DELETE_PRODUCT_RESET } from "../../constants/productConstants";
 const ProductsList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const alert = useAlert();
 
   const { loading, error, products } = useSelector((state) => state.products);
   const { error: deleteError, isDeleted } = useSelector(
@@ -69,40 +70,38 @@ const ProductsList = () => {
       rows: [],
     };
 
-    if (products) {
-      console.log(products);
-      products.forEach((product) => {
-        data.rows.push({
-          id: product._id,
-          name: product._name,
-          price: `$${product.price}`,
-          stock: product.stock,
-
-          actions: (
-            <>
-              <Link
-                to={`/admin/product/${product._id}`}
-                className="btn btn-primary py-2 px-2"
-              >
-                <i className="fa fa-pencil"></i>
-                <button
-                  className="btn btn-danger py-1 px-2 ml-2"
-                  onClick={deleteProductHandler(product._id)}
-                >
-                  <i className="fa fa-trash"></i>
-                </button>
-              </Link>
-            </>
-          ),
-        });
+    products.forEach((product) => {
+      data.rows.push({
+        id: product._id,
+        name: product.name,
+        price: `$${product.price}`,
+        stock: product.stock,
+        actions: (
+          <>
+            <Link
+              to={`/admin/product/${product._id}`}
+              className="btn btn-primary py-1 px-2"
+            >
+              <i className="fa fa-pencil"></i>
+            </Link>
+            <button
+              className="btn btn-danger py-1 px-2 ml-2"
+              onClick={() => deleteProductHandler(product._id)}
+            >
+              <i className="fa fa-trash"></i>
+            </button>
+          </>
+        ),
       });
-    }
+    });
 
     return data;
   };
+
   const deleteProductHandler = (id) => {
     dispatch(deleteProduct(id));
   };
+
   return (
     <>
       <MetaData title={"All products"} />

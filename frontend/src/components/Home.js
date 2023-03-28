@@ -221,6 +221,7 @@ const Home = () => {
     resPerPage,
     filteredProductsCount,
   } = useSelector((state) => state.products);
+  console.log(products);
 
   const keyword = params.keyword;
 
