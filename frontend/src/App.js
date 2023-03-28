@@ -27,6 +27,7 @@ import OrderSuccess from "./components/Cart/OrderSuccess";
 import OrderDetails from "./order/OrderDetails";
 import Dashboard from "./components/admin/Dashboard";
 import NewProduct from "./components/admin/NewProduct";
+import UpdateProduct from "./components/admin/UpdateProduct";
 import ProductsList from "./components/admin/ProductsList";
 function App() {
   const [stripeApiKey, setStripeApiKey] = useState("");
@@ -75,6 +76,15 @@ function App() {
             element={
               <ProtectedRoute>
                 <ProductsList />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/product/:id"
+            isAdmin={true}
+            element={
+              <ProtectedRoute>
+                <UpdateProduct />
               </ProtectedRoute>
             }
           />
