@@ -38,7 +38,7 @@ const Sidebar = () => {
             </li>
 
             <li>
-              <Link href="#">
+              <Link to="/admin/orders">
                 <i className="fa fa-shopping-basket"></i> Orders
               </Link>
             </li>

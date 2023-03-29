@@ -5,10 +5,13 @@ import Loader from "../layouts/Loader";
 import Sidebar from "./Sidebar";
 import { getAdminProducts } from "../../actions/productActions";
 import { useDispatch, useSelector } from "react-redux";
-
+import { allOrders } from "../../actions/orderActions";
 const Dashboard = () => {
   const dispatch = useDispatch();
   const { products } = useSelector((state) => state.products);
+  const { orders, totalAmount, loading } = useSelector(
+    (state) => state.allOrders
+  );
   let outofStock = 0;
   products.forEach((product) => {
     if (product.stock === 0) {
@@ -17,6 +20,7 @@ const Dashboard = () => {
   });
   useEffect(() => {
     dispatch(getAdminProducts());
+    dispatch(allOrders());
   }, [dispatch]);
 
   return (
@@ -33,7 +37,7 @@ const Dashboard = () => {
                 <div class="card-body">
                   <div class="text-center card-font-size">
                     Total Amount
-                    <br /> <b>$4567</b>
+                    <br /> <b>${totalAmount}</b>
                   </div>
                 </div>
               </div>
@@ -66,10 +70,10 @@ const Dashboard = () => {
                 <div class="card-body">
                   <div class="text-center card-font-size">
                     Orders
-                    <br /> <b>125</b>
+                    <br /> <b>{orders && orders.length}</b>
                   </div>
                 </div>
-                <a
+                <Link
                   class="card-footer text-white clearfix small z-1"
                   to="/admin/orders"
                 >
@@ -77,7 +81,7 @@ const Dashboard = () => {
                   <span class="float-right">
                     <i class="fa fa-angle-right"></i>
                   </span>
-                </a>
+                </Link>
               </div>
             </div>
 

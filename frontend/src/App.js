@@ -29,6 +29,7 @@ import Dashboard from "./components/admin/Dashboard";
 import NewProduct from "./components/admin/NewProduct";
 import UpdateProduct from "./components/admin/UpdateProduct";
 import ProductsList from "./components/admin/ProductsList";
+import OrdersList from "./components/admin/OrdersList";
 function App() {
   const [stripeApiKey, setStripeApiKey] = useState("");
   useEffect(() => {
@@ -67,6 +68,15 @@ function App() {
             element={
               <ProtectedRoute>
                 <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/orders"
+            isAdmin={true}
+            element={
+              <ProtectedRoute>
+                <OrdersList />
               </ProtectedRoute>
             }
           />
