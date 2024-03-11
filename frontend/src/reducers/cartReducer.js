@@ -6,7 +6,7 @@ export const cartReducer = (state = { cartItems: [] }, action) => {
       const item = action.payload;
       const isItemExist = state.cartItems.find(
         (i) => i.product === item.product
-      ); // id of product and product added to cart to check whether it exists
+      ); // id of product and product added to cart to check whether it exists and if it exists but quantity is different it will set that in state
       if (isItemExist) {
         return {
           ...state,
